@@ -10,6 +10,19 @@ defmodule TasklistTest do
     assert Tasklist.new() == %Tasklist{entries: %{}, id: 0}
   end
 
+  test "Tasklist.new(entries) should return %Tasklist{entries: %{}, id: 0}" do
+    entries = [
+      %{date: ~D[2022-06-05], value: "Add Payee"},
+      %{date: ~D[2022-06-05], value: "Enroll Payee"},
+      %{date: ~D[2022-06-05], value: "Add Bill"}
+    ]
+
+    assert Tasklist.new(entries) == %Tasklist{
+      entries: %{0 => %{date: ~D[2022-06-05], id: 0, value: "Add Payee"}, 1 => %{date: ~D[2022-06-05], id: 1, value: "Enroll Payee"}, 2 => %{date: ~D[2022-06-05], id: 2, value: "Add Bill"}},
+      id: 3
+    }
+  end
+
   test "Tasklist.addTaskList(%Tasklist{entries: %{}, id: 0}, %{date: ~D[2022-06-05], value: Ebill Added) should return %Tasklist{entries: %{0 => %{date: ~D[2022-06-05], id: 0, value: Ebill Added}}, id: 1}" do
     assert Tasklist.addTaskList(%Tasklist{entries: %{}, id: 0}, %{date: ~D[2022-06-05], value: "Ebill Added"}) == %Tasklist{entries: %{0 => %{date: ~D[2022-06-05], id: 0, value: "Ebill Added"}}, id: 1}
   end
