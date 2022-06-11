@@ -34,10 +34,21 @@ defmodule TaskServerTest do
     assert TaskServer.getTasks(serverid, ~D[2022-06-05]) == [%{date: ~D[2022-06-05], id: 0, value: "Ebill Added"}]
   end
 
+  test "get all task gen should send call message" do
+    {:ok, serverid} = TaskServer.start_link()
+    TaskServer.addTaskGen(serverid, %{date: ~D[2022-06-05], value: "Ebill Added"})
+    assert TaskServer.getAllGen(serverid) == %{0 => %{date: ~D[2022-06-05], id: 0, value: "Ebill Added"}}
+  end
+
   test "get task gen should send call message" do
     {:ok, serverid} = TaskServer.start_link()
     TaskServer.addTaskGen(serverid, %{date: ~D[2022-06-05], value: "Ebill Added"})
     assert TaskServer.getTasksGen(serverid, ~D[2022-06-05]) == [%{date: ~D[2022-06-05], id: 0, value: "Ebill Added"}]
   end
 
+  test "update task should update task and send cast message" do
+    serverid = TaskServer.start()
+    TaskServer.addTask(serverid, %{date: ~D[2022-06-05], value: "Ebill Added"})
+    assert TaskServer.updatetaskGen(serverid, %{date: ~D[2022-06-05], id: 0, value: "Ebill Added More than 1"}) == :ok
+  end
 end

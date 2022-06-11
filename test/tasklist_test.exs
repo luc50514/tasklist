@@ -27,6 +27,15 @@ defmodule TasklistTest do
     assert Tasklist.addTaskList(%Tasklist{entries: %{}, id: 0}, %{date: ~D[2022-06-05], value: "Ebill Added"}) == %Tasklist{entries: %{0 => %{date: ~D[2022-06-05], id: 0, value: "Ebill Added"}}, id: 1}
   end
 
+  test "Tasklist.getalltasks(tasklist) should return entries" do
+    task1 = Tasklist.addTaskList(%Tasklist{entries: %{}, id: 0}, %{date: ~D[2022-06-05], value: "Add Payee"})
+    task2 =Tasklist.addTaskList(task1, %{date: ~D[2022-06-05], value: "Enroll Payee"})
+    task3 = Tasklist.addTaskList(task2, %{date: ~D[2022-06-05], value: "Get Bill from provider"})
+
+    assert Tasklist.getalltasks(task3) == %{0 => %{date: ~D[2022-06-05], id: 0, value: "Add Payee"}, 1 => %{date: ~D[2022-06-05], id: 1, value: "Enroll Payee"}, 2 => %{date: ~D[2022-06-05], id: 2, value: "Get Bill from provider"}}
+
+  end
+
   test "Tasklist.getTaskList(%{~D[2022-06-05] => [Ebill Added]}, ~D[2022-06-05]) should return [Ebill Added]" do
     assert Tasklist.getTaskList(%Tasklist{entries: %{0 => %{date: ~D[2022-06-05], id: 0, value: "Ebill Added"}}, id: 1}, ~D[2022-06-05]) ==  [%{date: ~D[2022-06-05], id: 0, value: "Ebill Added"}]
   end

@@ -28,6 +28,10 @@ defmodule Tasklist do
    }
   end
 
+  def getalltasks(tasklist) do
+    tasklist.entries
+  end
+
   def getTaskList(tasklist, date) do
     tasklist.entries
     |> Stream.filter(fn {_, entry,} -> entry.date == date end)
