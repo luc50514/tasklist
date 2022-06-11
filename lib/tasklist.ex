@@ -34,7 +34,6 @@ defmodule Tasklist do
     |> Enum.map(fn {_, entry} -> entry end)
   end
 
-
   def getTaskListById(tasklist, entryId) do
     case Map.fetch(tasklist.entries, entryId) do
       :error -> {:error, tasklist}
